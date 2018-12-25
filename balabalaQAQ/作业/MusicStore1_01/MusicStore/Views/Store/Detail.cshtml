@@ -44,7 +44,7 @@
 
         <div id="msg"></div>
         <p class="button">
-            <a class="btn" id="addcart">添加到购物车</a>
+            <a  class="btn" id="addcart">添加到购物车</a>
             <div id="msg"></div>
         </p>
     </div>
@@ -54,7 +54,7 @@
 <div id="Reply">
     <div class="Reply-title"><span style="font-size:30px;">评论</span>  共&条评论</div>
     <div class="row Reply-user">
-        <div class="col-md-2 Reply-text"><span style="text-align:center;">@ViewBag.name</span><img alt="加载失败" src="@ViewBag.img" id="Musicuser_img" /></div>
+        <div class="col-md-2 Reply-text"><span style="text-align:center;">@Html.Raw(ViewBag.name)</span><img alt="加载失败" src="@ViewBag.img" id="Musicuser_img" /></div>
         <div class="col-md-10 Reply-ueditor">
             <script id="container" name="content" type="text/plain">
             </script>
@@ -72,6 +72,10 @@
                 <p> <span>@i.Person.Name</span>：@Html.Raw(i.Content)</p>
                 <div class="Reply-time">发表时间：@i.ReplyTime</div>
             </div>
+        }
+        @if (Model.Reply.Count == 0)
+        {
+        <div class="Reply-null">暂无评论内容</div>
         }
     </div>
 </div>
@@ -121,7 +125,6 @@
                     alert('评论成功！');
                     //重新刷新此区域
                     location.reload();
-                   
                 }
             }
         });
@@ -163,21 +166,27 @@
 
     /*动画*/
     var onOff = true;
+    var audio = document.getElementById('myMusic').paused;
     $("#Music-Jukebox").click(function Music() {
+        if (audio == true) {
+            this.className = "rotate";
+            alert("4");
+        }
         if (onOff) {
             myMusic.play();
             this.className = "rotate";
-
+            audio.paused = true;
         }
         else {
             myMusic.pause();//暂停音乐
             this.className = "Music-Jukebox ";
-
+            audio.paused = false;
         }
+     
         onOff = !onOff;
     });
 
-    var audio = document.getElementById('myMusic').paused;
+   
 </script>
 
 

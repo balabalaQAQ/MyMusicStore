@@ -19,7 +19,7 @@ namespace MusicStore.Controllers
             if ((Session["LoginUserSessionModel"] as LoginUserSessionModel) == null)
             {
                 ViewBag.img = "/Content/images/boys.jpg";
-                ViewBag.name = "请登录";
+                ViewBag.name = "<a href='../../Account/login'> 请登录 </a>";
             }
             else
             {
