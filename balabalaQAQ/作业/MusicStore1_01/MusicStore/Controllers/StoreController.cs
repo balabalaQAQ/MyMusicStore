@@ -15,7 +15,7 @@ namespace MusicStore.Controllers
 
         public ActionResult Detail(Guid id)
         {
-          
+
             if ((Session["LoginUserSessionModel"] as LoginUserSessionModel) == null)
             {
                 ViewBag.img = "/Content/images/boys.jpg";
@@ -27,9 +27,9 @@ namespace MusicStore.Controllers
                 ViewBag.name = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person.Name;
             }
 
-            var Albums = _context.Albums.SingleOrDefault(x =>x.ID == id);
+            var Albums = _context.Albums.SingleOrDefault(x => x.ID == id);
             return View(Albums);
-        
+
         }
 
         /// <summary>

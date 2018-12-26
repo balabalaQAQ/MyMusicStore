@@ -14,7 +14,7 @@ namespace MusicStore.Controllers
         // GET: Ueditor
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Index(Guid id,string Reply)
+        public ActionResult Index(Guid id, string cmt, string Replys)
         {
             if (Session["LoginUserSessionModel"] == null)
                 return Json("nologin");
@@ -22,13 +22,23 @@ namespace MusicStore.Controllers
             //查出出当前登录用户
             var person = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person;
 
-
+            //评论对象
             var reply = new Reply()
             {
                 Album = _context.Albums.Find(id),
                 Person = _context.Persons.Find(person.ID),
-                Content = Reply,
+                Content = cmt,
             };
+            //父级回复
+            if (string.IsNullOrEmpty(Replys))
+            {
+                //顶级回复
+                reply.ParentReply = null;
+            }
+            else
+            {
+                reply.ParentReply = _context.Reply.Find(Guid.Parse(Replys));
+            }
 
             _context.Reply.Add(reply);
             _context.SaveChanges();
