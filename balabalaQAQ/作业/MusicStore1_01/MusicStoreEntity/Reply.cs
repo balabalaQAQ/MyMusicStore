@@ -19,12 +19,17 @@ namespace MusicStoreEntity
 
         public DateTime ReplyTime { get; set; }//评论时间
 
-        //public virtual Reply ParentReply { get; set; }   //上级回复
+        public virtual Reply ParentReply { get; set; }   //上级回复
 
-       // public DateTime CreateDateTime { get; set; }  //回复时间
+        public DateTime CreateDateTime { get; set; }  //回复时间
+
+        public int Like { get; set; } = 0;//赞
+
+        public int Hate { get; set; } = 0;//黑
         public Reply() {
             ID = Guid.NewGuid();
             ReplyTime = DateTime.Now;
+            CreateDateTime = DateTime.Now;
         }
     }
 }

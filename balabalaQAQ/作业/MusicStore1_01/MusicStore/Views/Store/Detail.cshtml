@@ -70,7 +70,7 @@
             <div class="Music-Reply">
                 <img src="@i.Person.Avarda" alt="加载失败" />
                 <p> <span>@i.Person.Name</span>：@Html.Raw(i.Content)</p>
-                <div class="Reply-time">发表时间：@i.ReplyTime</div>
+                <div class="Reply-time"><a id="@i.ID" href="#">回复</a>  |  <a><i class="glyphicon glyphicon-thumbs-up"></i>（@i.Like）</a> | <a><i class="glyphicon glyphicon-thumbs-down"></i>（@i.Hate）</a> |  发表时间：@i.ReplyTime</div>
             </div>
         }
         @if (Model.Reply.Count == 0)
@@ -115,7 +115,7 @@
                 //如果没有登录,跳转到登录页
                 if (data == "nologin") {
                     location.href = "@Url.Action("login","Account",new { returnUrl = Url.Action("Detail", "Store", new { id = Model.ID }) })";
-                    ue.setContent(txt);
+                    ue.setContent() = html;
                 }
                 else {
                     //添加评论成功
@@ -123,8 +123,9 @@
                     //清空内容
                     ue.setContent('');
                     alert('评论成功！');
+                    
                     //重新刷新此区域
-                    location.reload();
+                    //location.reload();
                 }
             }
         });
@@ -132,9 +133,6 @@
 
 </script>
 <script>
-
-
-
 
     /*添加*/
     $("#addcart").click(function () {
@@ -188,5 +186,3 @@
 
    
 </script>
-
-

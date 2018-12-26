@@ -17,9 +17,9 @@ a {
     text-decoration: none;
 }
 
-    a:hover {
+a:hover {
         text-decoration: none;
-    }
+}
 
 /*nav*/
 .navbar-header {
@@ -177,6 +177,7 @@ a {
 .Music-Reply {
     border-top:solid 1px gray;
     margin-top:10px;
+    padding-top:10px;
 }
 .Reply-user {
     margin-top:15px;
@@ -197,7 +198,7 @@ a {
 }
 .Reply-time {
     text-align:right;
-    font-size:12px;
+    font-size:10px;
 }
 .Reply-ueditor {
     padding-top:10px;

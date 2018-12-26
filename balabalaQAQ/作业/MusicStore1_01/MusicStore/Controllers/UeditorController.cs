@@ -27,24 +27,25 @@ namespace MusicStore.Controllers
             {
                 Album = _context.Albums.Find(id),
                 Person = _context.Persons.Find(person.ID),
-                Content = Reply
+                Content = Reply,
             };
 
             _context.Reply.Add(reply);
             _context.SaveChanges();
+
             var Albums = _context.Albums.SingleOrDefault(x => x.ID == id);
 
             var HtmlString = "";
-            foreach (var item in Albums.Reply)
+            foreach (var item in Albums.Reply.OrderByDescending(x => x.ReplyTime))
             {
-                HtmlString += " <div class=\"Music - Reply\">";
-                HtmlString += " < img src = \""+ item.Person.Avarda + "\" alt = 加载失败 />";
-                HtmlString += "<p> <span> " + item.Person.Name + "</ span >：@Html.Raw(" + item.Content + ") </p>";
-                HtmlString += "  <div class=\"Reply - time\">发表时间："+ item.ReplyTime+"</div>";
+                HtmlString += " <div class=\"Music-Reply\">";
+                HtmlString += " <img src = "+ item.Person.Avarda + " alt = 加载失败 />";
+                HtmlString += "<p> <span> " + item.Person.Name + "</ span >：" + item.Content + " </p>";
+                HtmlString += " <div class=\"Reply-time\"><a><i class=\"glyphicon glyphicon-thumbs-up\"></i>（"+item.Like+"）</a> | <a><i class=\"glyphicon glyphicon-thumbs-down\"></i>（"+ item.Hate+"）</a> | 发表时间："+item.ReplyTime+"</div>";
                 HtmlString += " </div>";
             }
 
-                // return Json(reply, JsonRequestBehavior.AllowGet);
+            // return Json(reply, JsonRequestBehavior.AllowGet);
             return Json(HtmlString);
         }
     }
