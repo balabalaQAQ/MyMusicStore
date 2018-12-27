@@ -57,6 +57,7 @@
         <div class="col-md-2 Reply-text"><span style="text-align:center;">@Html.Raw(ViewBag.name)</span><img alt="加载失败" src="@ViewBag.img" id="Musicuser_img" /></div>
         <div class="col-md-10 Reply-ueditor">
             <script id="container" name="content" type="text/plain">
+                <input type="hidden" id="pReplyID" />
             </script>
             <input type="button" value="发表评论" id="Reply-btn" />
         </div>
@@ -102,7 +103,7 @@
         //设置编辑器的内容
         //ue.setContent('hello');
         var txt = ue.getContentTxt();
-
+        var pid = $("pReplyID").val();
         var html = ue.getContent();
 
         $.ajax({

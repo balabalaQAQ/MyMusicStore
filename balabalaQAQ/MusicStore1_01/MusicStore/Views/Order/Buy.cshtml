@@ -36,13 +36,14 @@
                             </tr>
                         </tbody>
                     </table>
-                    <p>
-                        <button type="submit" class="btn btn-success" style="width:100px" onclick="Addperson()">
-                            <i class="glyphicon glyphicon-shopping-cart">确认购买</i>
-                        </button>
-                    </p>
+                  
                 </div>
     }
+    <p>
+        <button type="submit" class="btn btn-success" style="width:100px" onclick="Addperson()">
+            <i class="glyphicon glyphicon-shopping-cart">确认购买</i>
+        </button>
+    </p>
 </fieldset>
 
 <script>
@@ -64,18 +65,15 @@
     function Addperson() {
         var ddl = document.getElementById("ID")
         var index = ddl.selectedIndex;
-
         var Value = ddl.options[index].value;
+
         $.ajax({
             type: 'post',
             async: true,
             url: "../../Order/Buy",
             data: { id: Value },
             dataType: 'json',
-            success: function (data) {
-                //视图中进行局部页面的刷新<tbody>
-                $("#tbCart").html(data);
-            }
+         
         });
     }
 </script>

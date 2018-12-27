@@ -65,9 +65,9 @@ namespace MusicStore.Controllers
 
             foreach (var i in addperson)
             {
-                list.Add(new SelectListItem() { Value = (i.ID).ToString(), Text = "收件人：" + i.AddressPerson + "；   收件地址：" + i.Address + "；    电话：" + i.MobiNumber});   
+                list.Add(new SelectListItem() { Value = (i.ID).ToString(), Text = "收件人：" + i.AddressPerson + "；   收件地址：" + i.Address + "；    电话：" + i.MobiNumber });
             };
-           
+
             ViewBag.addperson = list;
 
             return View(order);
@@ -111,7 +111,8 @@ namespace MusicStore.Controllers
         /// </summary>
         /// <param name="oder"></param>
         /// <returns></returns>
-        [HttpPost]
+
+       [HttpPost]
         public ActionResult Buy(Guid id)
         {
             //1.判断用户登录凭据是否过期，如果过期跳转回登录页，登录成功后返回确认购买页
@@ -141,39 +142,41 @@ namespace MusicStore.Controllers
 
 
             //4.如果表单验证通过，则保存order到数据库（锁定进程），跳转到Pay / AliPay
-            
-                //加锁
-                LockedHelp.ThreadLock(order.ID);
-                try
-                {
-                    _context.Order.Add(order);
 
-                    //清空购物车
-                    var carts = _context.Cart.Where(x => x.Person.ID == person.ID).ToList();
-                    foreach (var item in order.OrdelDetails)
-                    {
-                        _context.Cart.Remove(_context.Cart.SingleOrDefault(x => x.Album.ID == item.Album.ID));
-                    }
-                    order.AddressPerson = peraddress.AddressPerson;
-                    order.Address = peraddress.Address;
-                    order.MobiNumber = peraddress.MobiNumber;
-                    
-                    _context.SaveChanges();
-                   
-                }
-                catch
-                {
-                }
-                finally
-                {
-                    LockedHelp.ThreadUnLocked(order.ID);
-                }
+            //加锁
+            LockedHelp.ThreadLock(order.ID);
+            try
+            {
+                _context.Order.Add(order);
 
-                //跳转到支付页Pay/AliPay 
-                return RedirectToAction("Alipay", "Pay", new { id = order.ID });
-            
+                //清空购物车
+                var carts = _context.Cart.Where(x => x.Person.ID == person.ID).ToList();
+                foreach (var item in order.OrdelDetails)
+                {
+                    _context.Cart.Remove(_context.Cart.SingleOrDefault(x => x.Album.ID == item.Album.ID));
+                }
+                order.AddressPerson = peraddress.AddressPerson;
+                order.Address = peraddress.Address;
+                order.MobiNumber = peraddress.MobiNumber;
+
+                _context.SaveChanges();
+
+            }
+            catch
+            {
+            }
+            finally
+            {
+                LockedHelp.ThreadUnLocked(order.ID);
+            }
+
+            //跳转到支付页Pay/AliPay 
+            return RedirectToAction("Alipay", "Pay", new { id = order.ID });
+
 
         }
+
+
         /// <summary>
         /// 游览用户订单
         /// </summary>
@@ -188,7 +191,7 @@ namespace MusicStore.Controllers
             var person = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person;
             var Order = _context.Order.Where(x => x.Person.ID == person.ID).ToList();
 
-           
+
 
             return View(Order);
         }
@@ -199,7 +202,7 @@ namespace MusicStore.Controllers
             if (Session["LoginUserSessionModel"] == null)
                 return RedirectToAction("login", "Account", new { returnUrl = Url.Action("Index", "Order") });
 
-            
+
 
             return RedirectToAction("Alipay", "Pay", new { id = orderid });
         }
