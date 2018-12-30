@@ -70,9 +70,9 @@
         {
             <div class="Music-Reply">
                 <img src="@i.Person.Avarda" alt="加载失败" />
-                <p id="Contet-@i.ID"> <span>@i.Person.Name</span>：@Html.Raw(i.Content)</p>
+                <div id="Content-@i.ID" class="Music-content">  @i.Person.Name：@Html.Raw(i.Content) </div>
                 <div class="Reply-time">
-                    <a href="#container" onclick="javascript:GetQuote('@i.ID');">回复</a>
+                    <a href="#container" onclick="javascript: GetQuote('@i.ID');">回复</a><a href="#"onclick="javascript:ShowCmt('@i.ID');">(@ViewBag.count)</a>
                     | <a href="#"><i class="glyphicon glyphicon-thumbs-up"></i>（@i.Like）</a>
                     | <a href="#"><i class="glyphicon glyphicon-thumbs-down"></i>（@i.Hate）</a> |  发表时间：@i.ReplyTime
                 </div>
@@ -85,6 +85,26 @@
     </div>
 </div>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content"id="Div-SonCmts">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                  
+                </h4>
+            </div>
+            <div class="modal-body">
+               
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 <!-- 配置文件 -->
 <script type="text/javascript" src="~/ueditor/ueditor.config.js"></script>
 <!-- 编辑器源码文件 -->
@@ -92,17 +112,18 @@
 <!--<script type="text/javascript" charset="utf-8" src="~/ueditor/lang/zh-cn/zh-cn.js"></script>-->
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
+    
       /*回复*/
     function GetQuote(id)
     {
+        
         //保存该评论的id
         $("#pReplyID").val(id);
 
         //取回复的内容
-
         var divName = 'Content-' + id;
+        console.log(divName);
         var content = $("#" + divName).html();
-
         //把内容赋值给ueditor
         var ue = UE.getEditor('container');
         ue.ready(function () {
@@ -110,8 +131,23 @@
         });
     }
 
-
+    function ShowCmt(id)
+    {
+        //ajax查询出子回复
+        $.ajax({
+            type: 'post',
+            async: true,
+            url: '../../Store/ShowCmt',
+            data: {pid: id },
+            dataType: 'json',
+            success: function (data) {
+                $("#Div-SonCmts").html(data);
+                $('#myModal').modal('toggle');
+            }
+        });
+    }
     var ue = UE.getEditor('container');
+  
     //var ue = UE.getContent();
     //对编辑器的操作最好在编辑器ready之后再做
 
@@ -126,15 +162,16 @@
         //设置编辑器的内容
         //ue.setContent('hello');
         var txt = ue.getContentTxt();
-        var pid= $("#pReplyID").val(id);
+        var pid = $("#pReplyID").val();
         var html = ue.getContent();
-
+        
         $.ajax({
             type: 'post',
             async: true,
             url: '../../Ueditor/Index',
-            data: { id: "@Model.ID", cmt: html, reply: pid },
+            data: { id: "@Model.ID", "cmt": html, "Replys": pid },
             dataType: 'json',
+           
             success: function (data) {
                 //如果没有登录,跳转到登录页
                 if (data == "nologin") {
@@ -208,5 +245,9 @@
         onOff = !onOff;
     });
 
+    //赞
+
+
+    //踩
 
 </script>

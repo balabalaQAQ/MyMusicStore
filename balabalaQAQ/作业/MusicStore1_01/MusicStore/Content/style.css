@@ -189,6 +189,9 @@ a:hover {
 .Music-Reply p {
     display:inline-block;
 }
+.Music-content{
+    display:inline-block;
+}
 .Music-Reply p img{
     height:35px;
     width:35px;

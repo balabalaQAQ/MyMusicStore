@@ -28,8 +28,41 @@ namespace MusicStore.Controllers
             }
 
             var Albums = _context.Albums.SingleOrDefault(x => x.ID == id);
-            return View(Albums);
 
+            foreach (var item in Albums.Reply.OrderByDescending(x => x.ReplyTime))
+            {
+                var sonCmt = _context.Reply.Where(x => x.ParentReply.ID == item.ID).ToList();
+                
+                ViewBag.count = sonCmt.Count();
+            }
+            return View(Albums);
+            
+            }
+
+        public ActionResult ShowCmt(string pid)
+        {
+            var htmlString = "";
+            //子回复
+            Guid id = Guid.Parse(pid);
+            var cmts = _context.Reply.Where(x => x.ParentReply.ID == id).OrderByDescending(x => x.CreateDateTime).ToList();
+            //原回复
+            var pcmt = _context.Reply.Find(id);
+            htmlString += "<div class=\"modal-header\">";
+            htmlString += "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>";
+            htmlString += "<h4 class=\"modal-title\" id=\"myModalLabel\">";
+            htmlString += "<em>楼主</em>" + pcmt.Person.Name + "  发表于" + pcmt.CreateDateTime.ToString("yyyy年MM月dd日 hh点mm分ss秒") + ":<br/>" + pcmt.Content;
+            htmlString += " </h4> </div>";
+
+            htmlString += "<div class=\"modal-body\">";
+            foreach (var item in cmts)
+            {
+                htmlString += "<p>"+ item.Content+"</p>";
+             }
+            htmlString += "</div>";
+            //子回复
+
+            htmlString += "</div><div class=\"modal-footer\"></div>";
+            return Json(htmlString);
         }
 
         /// <summary>
