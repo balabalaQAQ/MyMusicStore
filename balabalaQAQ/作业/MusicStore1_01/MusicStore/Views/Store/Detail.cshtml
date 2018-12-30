@@ -256,7 +256,9 @@
             success: function (data) {
                 if (data == "nologin")
                     location.href = "@Url.Action("login","Account",new { returnUrl = Url.Action("Detail", "Store", new { id = Model.ID }) })";
-
+                else {
+                    $("#Person-Reply").html(data);
+                }
                 //detail
                 //modal
             }
@@ -274,7 +276,9 @@
             success: function (data) {
                 if (data == "nologin")
                     location.href = "@Url.Action("login","Account",new { returnUrl = Url.Action("Detail", "Store", new { id = Model.ID }) })";
-
+                else {
+                    $("#Person-Reply").html(data);
+                }
                 //detail
                 //modal
             }

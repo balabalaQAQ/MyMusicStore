@@ -94,6 +94,7 @@ namespace MusicStore.Controllers
             var like = _context.LikeReply.SingleOrDefault(x => x.Person.ID == person.ID&& x.Reply.ID==id);
             if (like == null)
             {
+                //3.保存  reply实体中like+1或hate+1  LikeReply添加一条记录
                 var reply = _context.Reply.SingleOrDefault(x => x.ID == id);
                 if (Isnot) { reply.Like += 1; }
                 else { reply.Hate += 1; }
@@ -106,13 +107,12 @@ namespace MusicStore.Controllers
                 _context.LikeReply.Add(like);
                 _context.SaveChanges();
             }
-          
-         
-            //3.保存  reply实体中like+1或hate+1  LikeReply添加一条记录
+            string HtmlString = " ";
+
 
             //生成html 注入视图
 
-            return Json("OK");
+            return Json(HtmlString);
         }
       
     }
