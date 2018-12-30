@@ -618,6 +618,7 @@
     <Content Include="ueditor\third-party\video-js\font\vjs.ttf" />
     <Content Include="ueditor\third-party\video-js\font\vjs.woff" />
     <Content Include="Views\Ueditor\Index.cshtml" />
+    <Content Include="Views\Store\Like.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

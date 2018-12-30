@@ -52,5 +52,6 @@ namespace MusicStoreEntity
         public IDbSet<OrdelDetail> OrdelDetail { get; set; }
         public IDbSet<PerAddress> PerAddress { get; set; }
         public IDbSet<Reply> Reply { get; set; }
+        public IDbSet<LikeReply> LikeReply { get; set; }
     }
 }

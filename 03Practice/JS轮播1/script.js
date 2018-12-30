@@ -16,6 +16,7 @@ window.onload = function () {
         }, 20);
     }
 
+
     //down  onmouseover  
     $("picDown").onmouseover = function () {
         // 打开计时器 每秒修改top属性 图片底部时停止
@@ -25,6 +26,7 @@ window.onload = function () {
             pic_top < 0 ? $('pic').style.top = pic_top + "px" : clearInterval(timer);
         }, 20);
     }
+
 
     //onmouseout 计时器停
     $("xiaomi").onmouseout = function () {

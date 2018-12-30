@@ -77,5 +77,43 @@ namespace MusicStore.Controllers
             return View(list);
         }
 
+        /// <summary>
+        /// 点赞
+        /// </summary>
+        /// <param name="id">回复id</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Like(Guid id,bool Isnot)
+        {
+            //1.判断用户是否登录
+            if (Session["LoginUserSessionModel"] == null)
+                return Json("nologin");
+            //2.判断用户是否对这条回复点过赞或踩
+            var person = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person;
+            
+            var like = _context.LikeReply.SingleOrDefault(x => x.Person.ID == person.ID&& x.Reply.ID==id);
+            if (like == null)
+            {
+                var reply = _context.Reply.SingleOrDefault(x => x.ID == id);
+                if (Isnot) { reply.Like += 1; }
+                else { reply.Hate += 1; }
+                like = new LikeReply()
+                {
+                    IsNotLike = Isnot,
+                    Person= _context.Persons.Find(person.ID),
+                    Reply = reply
+                };
+                _context.LikeReply.Add(like);
+                _context.SaveChanges();
+            }
+          
+         
+            //3.保存  reply实体中like+1或hate+1  LikeReply添加一条记录
+
+            //生成html 注入视图
+
+            return Json("OK");
+        }
+      
     }
 }

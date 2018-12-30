@@ -73,8 +73,8 @@
                 <div id="Content-@i.ID" class="Music-content">  @i.Person.Name：@Html.Raw(i.Content) </div>
                 <div class="Reply-time">
                     <a href="#container" onclick="javascript: GetQuote('@i.ID');">回复</a><a href="#"onclick="javascript:ShowCmt('@i.ID');">(@ViewBag.count)</a>
-                    | <a href="#"><i class="glyphicon glyphicon-thumbs-up"></i>（@i.Like）</a>
-                    | <a href="#"><i class="glyphicon glyphicon-thumbs-down"></i>（@i.Hate）</a> |  发表时间：@i.ReplyTime
+                    | <a href="#" onclick="javascript:Like('@i.ID');"><i class="glyphicon glyphicon-thumbs-up"></i>（@i.Like）</a>
+                    | <a href="#" onclick= "javascript:Hoke('@i.ID');"><i class="glyphicon glyphicon-thumbs-down"></i>（@i.Hate）</a> |  发表时间：@i.ReplyTime
                 </div>
             </div>
         }
@@ -221,7 +221,7 @@
         });
     });
 
-  
+
 
     /*动画*/
     var onOff = true;
@@ -245,9 +245,41 @@
         onOff = !onOff;
     });
 
-    //赞
+    //点赞
+    function Like(id) {
+        $.ajax({
+            type: 'post',
+            asyn: true,
+            url: '../../Store/Like',
+            data: { id: id, "Isnot": true },
+            dataType: 'json',
+            success: function (data) {
+                if (data == "nologin")
+                    location.href = "@Url.Action("login","Account",new { returnUrl = Url.Action("Detail", "Store", new { id = Model.ID }) })";
 
+                //detail
+                //modal
+            }
+        });
+    }
 
     //踩
+    function Hoke(id) {
+        $.ajax({
+            type: 'post',
+            asyn: true,
+            url: '../../Store/Like',
+            data: { id: id, "Isnot": false },
+            dataType: 'json',
+            success: function (data) {
+                if (data == "nologin")
+                    location.href = "@Url.Action("login","Account",new { returnUrl = Url.Action("Detail", "Store", new { id = Model.ID }) })";
+
+                //detail
+                //modal
+            }
+        });
+    }
+
 
 </script>
