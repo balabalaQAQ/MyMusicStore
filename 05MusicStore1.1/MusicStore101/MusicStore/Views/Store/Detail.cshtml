@@ -73,8 +73,13 @@
     <div class="modal-dialog">
         <div class="modal-content"  id="Div-SonCmts">
             <div class="modal-header">
+<<<<<<< HEAD
                 <button type="button" class="close" data-dismiss="modal" 
                         aria-hidden="true">×
+=======
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+>>>>>>> a114213bf94b7bfe85aa04c16eb969b3096c52b8
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
                     原回复
@@ -140,8 +145,23 @@
 
     function ShowCmt(id) {
         //ajax 查询出子回复
+<<<<<<< HEAD
 
         $('#myModal').modal('toggle');
+=======
+        $.ajax({
+            type: 'post',
+            asyn: true,
+            url: '@Url.Action("showCmts","Store")',
+            data: {"pid":id},
+            dataType: 'json',
+            success: function (data) {
+                $("#Div-SonCmts").html(data);
+                $('#myModal').modal('toggle');
+            }
+        });
+
+>>>>>>> a114213bf94b7bfe85aa04c16eb969b3096c52b8
     }
 
     //百度编辑器调用
