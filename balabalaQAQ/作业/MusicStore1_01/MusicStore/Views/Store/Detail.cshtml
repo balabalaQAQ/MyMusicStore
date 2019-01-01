@@ -271,7 +271,7 @@
             type: 'post',
             asyn: true,
             url: '../../Store/Like',
-            data: { id: id, "Isnot": false },
+            data: { id: @Model.ID, "Isnot": false },
             dataType: 'json',
             success: function (data) {
                 if (data == "nologin")

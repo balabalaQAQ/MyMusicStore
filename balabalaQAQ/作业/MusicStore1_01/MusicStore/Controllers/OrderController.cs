@@ -59,11 +59,13 @@ namespace MusicStore.Controllers
             Session["Order"] = order;
 
             //收货人下拉框
-            var addperson = person.PerAddress.ToList();
+            var buyitem = _context.Persons.SingleOrDefault(x => x.ID == person.ID).PerAddress;
+     
+ 
 
             var list = new List<SelectListItem>();
 
-            foreach (var i in addperson)
+            foreach (var i in buyitem)
             {
                 list.Add(new SelectListItem() { Value = (i.ID).ToString(), Text = "收件人：" + i.AddressPerson + "；   收件地址：" + i.Address + "；    电话：" + i.MobiNumber });
             };
