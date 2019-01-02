@@ -75,7 +75,7 @@ namespace MusicStore.Controllers
                 HtmlString += " <img src = " + item.Person.Avarda + " alt = 加载失败 />";
                 HtmlString += "<p> <span> " + item.Person.Name + "</ span >：" + item.Content + " </p>";
                 HtmlString += " <div class=\"Reply-time\"> <a href=\"#container\" onclick=\"javascript:GetQuote(" + item.ID + ")\">回复</a> <a href='#'onclick=\"javascript: ShowCmt('" + item.ID + "');\">(" + sonCmt + ")</a>";
-                HtmlString += " | <a href=\"#\" onclick=\"javascript:Like('" + item.ID + "');><i class=\"glyphicon glyphicon-thumbs-up\"></i>（" + item.Like + "）</a> | <a href=\"#\" onclick=\"javascript:Like('" + item.ID + "');><i class=\"glyphicon glyphicon-thumbs-down\"></i>（" + item.Hate + "）</a> | 发表时间：" + item.ReplyTime + "</div>";
+                HtmlString += " | <a href=\"#\" onclick=\"javascript:Like('"+item.ID+"');\"><i class=\"glyphicon glyphicon-thumbs-up\"></i>（"+item.Like+ "）</a> | <a href=\"#\" onclick= \"javascript:Hoke('"+item.ID+"');\"><i class=\"glyphicon glyphicon-thumbs-down\"></i>（"+item.Hate+"）</a>  | 发表时间：" + item.ReplyTime + "</div>";
                 HtmlString += " </div>";
                
             }
