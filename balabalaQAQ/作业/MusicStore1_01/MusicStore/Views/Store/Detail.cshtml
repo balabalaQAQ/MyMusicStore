@@ -52,7 +52,7 @@
 
 
 <div id="Reply">
-    <div class="Reply-title"><span style="font-size:30px;">评论</span>  共&条评论</div>
+    <div class="Reply-title"><span style="font-size:30px;">评论</span>  共 @Model.Reply.Count()条评论</div>
     <div class="row Reply-user">
         <div class="col-md-2 Reply-text"><span style="text-align:center;">@Html.Raw(ViewBag.name)</span><img alt="加载失败" src="@ViewBag.img" id="Musicuser_img" /></div>
         <div class="col-md-10 Reply-ueditor">
@@ -66,22 +66,7 @@
     <br />
     <br />
     <div id="Person-Reply">
-        @foreach (var i in Model.Reply.OrderByDescending(x => x.ReplyTime))
-        {
-            <div class="Music-Reply">
-                <img src="@i.Person.Avarda" alt="加载失败" />
-                <div id="Content-@i.ID" class="Music-content">  @i.Person.Name：@Html.Raw(i.Content) </div>
-                <div class="Reply-time">
-                    <a href="#container" onclick="javascript: GetQuote('@i.ID');">回复</a><a href="#"onclick="javascript:ShowCmt('@i.ID');">(@ViewBag.count)</a>
-                    | <a href="#" onclick="javascript:Like('@i.ID');"><i class="glyphicon glyphicon-thumbs-up"></i>（@i.Like）</a>
-                    | <a href="#" onclick= "javascript:Hoke('@i.ID');"><i class="glyphicon glyphicon-thumbs-down"></i>（@i.Hate）</a> |  发表时间：@i.ReplyTime
-                </div>
-            </div>
-        }
-        @if (Model.Reply.Count == 0)
-        {
-            <div class="Reply-null">暂无评论内容</div>
-        }
+
     </div>
 </div>
 
@@ -191,7 +176,18 @@
             }
         });
     });
-
+      
+    $.ajax({
+        type: 'post',
+        async: true,
+        url: '../../Ueditor/FIndex',
+        data: { id: "@Model.ID" },
+        dataType: 'json',
+        success: function (data)
+        {
+            $("#Person-Reply").html(data);
+        }
+    });
 </script>
 <script>
 
@@ -271,7 +267,7 @@
             type: 'post',
             asyn: true,
             url: '../../Store/Like',
-            data: { id: @Model.ID, "Isnot": false },
+            data: { id: id, "Isnot": false },
             dataType: 'json',
             success: function (data) {
                 if (data == "nologin")

@@ -29,14 +29,7 @@ namespace MusicStore.Controllers
 
             var Albums = _context.Albums.SingleOrDefault(x => x.ID == id);
 
-            foreach (var item in Albums.Reply.OrderByDescending(x => x.ReplyTime))
-            {
-                var sonCmt = _context.Reply.Where(x => x.ParentReply.ID == item.ID).ToList();
-                
-                ViewBag.count = sonCmt.Count();
-            }
             return View(Albums);
-            
             }
 
         public ActionResult ShowCmt(string pid)
