@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_NewLayout.cshtml";
     ViewBag.Title = "专辑明细";
 }
+
 <div class="row">
     <div class="col-md-6 Music-box">
         <div id="Music-Jukebox">
@@ -108,7 +109,22 @@
 <!--<script type="text/javascript" charset="utf-8" src="~/ueditor/lang/zh-cn/zh-cn.js"></script>-->
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
-    
+    ///*回复*/
+    //function GetQuote(id) {
+
+    //    //保存该评论的id
+    //    $("#pReplyID").val(id);
+    //    //取回复的内容
+    //    var divName = 'Content-' + id;
+    //    console.log(divName);
+    //    var content = $("#" + divName).html();
+    //    //把内容赋值给ueditor
+    //    var ue = UE.getEditor('container');
+    //    ue.ready(function () {
+    //        ue.setContent(content);
+    //    });
+    //}
+
       /*回复*/
     function GetQuote(id, divid) {
         //保存该评论的id
@@ -116,19 +132,17 @@
         //alert($("#pReplyID").val());
         //取回复的内容
         var divName = 'Content-' + divid;
-        var content = "<br/><br/><div style='margin:20px; border:1px solid black'>引用：<br/>" + $("#" + divName).html() + "</div>";
-
+        var content = "回复" + $("#" + divName).html() + ":";
+        console.log(content);
         //把内容赋值给ueditor
-        var ue = UE.getEditor('editor');
+        var ue = UE.getEditor('container');
         ue.ready(function () {
             ue.setContent(content);
         });
-
-        //如果model打开则关了
-        $('#myModal').modal('hide');
     }
+  
 
-
+ 
     function ShowCmt(id)
     {
         //ajax查询出子回复
@@ -230,8 +244,6 @@
         });
     });
 
-
-
     /*动画*/
     var onOff = true;
     var audio = document.getElementById('myMusic').paused;
@@ -260,7 +272,7 @@
             type: 'post',
             asyn: true,
             url: '../../Store/Like',
-            data: { id: id, "Isnot": true },
+            data: { id: id, "Isnot": true,"mid":"@Model.ID"},
             dataType: 'json',
             success: function (data) {
                 if (data == "nologin")
@@ -280,7 +292,7 @@
             type: 'post',
             asyn: true,
             url: '../../Store/Like',
-            data: { id: id, "Isnot": false },
+            data: { id: id, "Isnot": true,"mid":"@Model.ID"},
             dataType: 'json',
             success: function (data) {
                 if (data == "nologin")

@@ -30,7 +30,7 @@ namespace MusicStore.Controllers
             var Albums = _context.Albums.SingleOrDefault(x => x.ID == id);
 
             return View(Albums);
-            }
+        }
 
         public ActionResult ShowCmt(string pid)
         {
@@ -90,15 +90,15 @@ namespace MusicStore.Controllers
         /// <param name="id">回复id</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Like(Guid id,bool Isnot)
+        public ActionResult Like(Guid id, bool Isnot, Guid mid)
         {
             //1.判断用户是否登录
             if (Session["LoginUserSessionModel"] == null)
                 return Json("nologin");
             //2.判断用户是否对这条回复点过赞或踩
             var person = (Session["LoginUserSessionModel"] as LoginUserSessionModel).Person;
-            
-            var like = _context.LikeReply.SingleOrDefault(x => x.Person.ID == person.ID&& x.Reply.ID==id);
+
+            var like = _context.LikeReply.SingleOrDefault(x => x.Person.ID == person.ID && x.Reply.ID == id);
             if (like == null)
             {
                 //3.保存  reply实体中like+1或hate+1  LikeReply添加一条记录
@@ -108,19 +108,31 @@ namespace MusicStore.Controllers
                 like = new LikeReply()
                 {
                     IsNotLike = Isnot,
-                    Person= _context.Persons.Find(person.ID),
+                    Person = _context.Persons.Find(person.ID),
                     Reply = reply
                 };
                 _context.LikeReply.Add(like);
                 _context.SaveChanges();
             }
-            string HtmlString = " ";
 
+            var HtmlString = "";
+            var Albums = _context.Albums.SingleOrDefault(x => x.ID == mid);
 
+            foreach (var item in Albums.Reply.OrderByDescending(x => x.ReplyTime))
+            {
+                var sonCmt = _context.Reply.Where(x => x.ParentReply.ID == item.ID).ToList().Count;
+                ViewBag.count = sonCmt;
+                HtmlString += " <div class=\"Music-Reply\">";
+                HtmlString += " <img src = " + item.Person.Avarda + " alt = 加载失败 />";
+                HtmlString += "<p> <span> " + item.Person.Name + "</ span >：" + item.Content + " </p>";
+                HtmlString += " <div class=\"Reply-time\"> <a href=\"#container\" onclick=\"javascript:GetQuote('" + item.ID + "','" + item.ID + "')\">回复</a> <a href='#'onclick=\"javascript: ShowCmt('" + item.ID + "');\">(" + sonCmt + ")</a>";
+                HtmlString += " | <a href=\"#\" onclick=\"javascript:Like('" + item.ID + "');><i class=\"glyphicon glyphicon-thumbs-up\"> </i>（" + item.Like + "）</a> | <a href=\"#\" onclick=\"javascript:Like('" + item.ID + "');> <i class=\"glyphicon glyphicon-thumbs-down\"></i>（" + item.Hate + "）</a> | 发表时间：" + item.ReplyTime + "</div>";
+                HtmlString += " </div>";
+            }
             //生成html 注入视图
 
             return Json(HtmlString);
         }
-      
+
     }
 }

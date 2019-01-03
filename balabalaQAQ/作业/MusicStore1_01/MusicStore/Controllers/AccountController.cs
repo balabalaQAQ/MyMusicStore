@@ -224,7 +224,7 @@ namespace MusicStore.Controllers
         [HttpPost]
         public ActionResult SRefreshUser(Guid id )
         {
-            var person = _context.Persons.SingleOrDefault(x => x.ID == id);
+             var person = _context.Persons.SingleOrDefault(x => x.ID == id);
             if (person == null) return View();
 
             string HtmlString="";
