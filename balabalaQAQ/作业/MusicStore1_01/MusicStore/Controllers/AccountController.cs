@@ -226,9 +226,9 @@ namespace MusicStore.Controllers
         [HttpPost]
         public ActionResult SRefreshUser(Guid id )
         {
+             
             var person = _context.Persons.SingleOrDefault(x => x.ID == id);
             if (person == null) return View();
-
             string HtmlString="";
             var Cart = _context.Cart.Where(x => x.Person.ID == id).ToList();
             HtmlString += "<input type=hidden id=" + person.ID + " value=" + person.ID + "/>";
@@ -240,7 +240,7 @@ namespace MusicStore.Controllers
             HtmlString += "<li><a href = \"/Order/index\">我的订单</a> </li>";
             HtmlString += "<li><a href = \"/AddressPerson/index\">设置收件人</a></li>";
             HtmlString += "<li><a href = \"/my/index\">个人信息</a> </li>";
-            HtmlString += "<li><a href = \"/RevisePwd/Account\">修改密码</a> </li>";
+            HtmlString += "<li><a href = \"/Account/RevisePwd \">修改密码</a> </li>";
             HtmlString += "<li><a href = \"/Account/loginout\">注销</a> </li>";
             HtmlString += "</ul>";
             return Json(HtmlString);
