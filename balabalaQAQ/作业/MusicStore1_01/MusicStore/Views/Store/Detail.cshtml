@@ -132,7 +132,8 @@
         //alert($("#pReplyID").val());
         //取回复的内容
         var divName = 'Content-' + divid;
-        var content = "回复" + $("#" + divName).html() + ":";
+        var content ="回复"+ $("#" + divName).html();
+        //var content = "<br/><br/><div style='margin:20px; border:1px solid black'>引用：<br/> 回复" + $("#" + divName).html() + "</div>";盖中盖
         console.log(content);
         //把内容赋值给ueditor
         var ue = UE.getEditor('container');
@@ -250,7 +251,6 @@
     $("#Music-Jukebox").click(function Music() {
         if (audio == true) {
             this.className = "rotate";
-            alert("4");
         }
         if (onOff) {
             myMusic.play();
@@ -287,12 +287,12 @@
     }
 
     //踩
-    function Hoke(id) {
+    function Hate(id) {
         $.ajax({
             type: 'post',
             asyn: true,
             url: '../../Store/Like',
-            data: { id: id, "Isnot": true,"mid":"@Model.ID"},
+            data: { id: id, "Isnot": false,"mid":"@Model.ID"},
             dataType: 'json',
             success: function (data) {
                 if (data == "nologin")

@@ -63,8 +63,8 @@ namespace MusicStore.Controllers
                 htmlString += item.Content;
                 htmlString += "</div>";
                 htmlString += "<h6><a href='#div-editor' class='reply' onclick=\"javascript:GetQuote('" + item.ParentReply.ID + "','" + item.ID + "');\">回复</a>" +
-                              "<a href='#' class='reply' style='margin:0 20px 0 40px'   onclick=\"javascript:Like('" + item.ID + "');\"><i class='glyphicon glyphicon-thumbs-up'></i>(" + item.Like + ")</a>" +
-                              "<a href='#' class='reply' style='margin:0 20px'   onclick=\"javascript:Hate('" + item.ID + "');\"><i class='glyphicon glyphicon-thumbs-down'></i>(" + item.Hate + ")</a></h6>";
+                              "<a class='reply' style='margin:0 20px 0 40px'   onclick=\"javascript:Like('" + item.ID + "');\"><i class='glyphicon glyphicon-thumbs-up'></i>(" + item.Like + ")</a>" +
+                              "<a class='reply' style='margin:0 20px'   onclick=\"javascript:Hate('" + item.ID + "');\"><i class='glyphicon glyphicon-thumbs-down'></i>(" + item.Hate + ")</a></h6>";
                 htmlString += "</li>";
             }
             htmlString += "</ul>";
@@ -124,9 +124,11 @@ namespace MusicStore.Controllers
                 ViewBag.count = sonCmt;
                 HtmlString += " <div class=\"Music-Reply\">";
                 HtmlString += " <img src = " + item.Person.Avarda + " alt = 加载失败 />";
-                HtmlString += "<p> <span> " + item.Person.Name + "</ span >：" + item.Content + " </p>";
+                HtmlString += "<p id='Content-" + item.ID + "'> <span> " + item.Person.Name + "：</ span >" + item.Content + " </p>";
                 HtmlString += " <div class=\"Reply-time\"> <a href=\"#container\" onclick=\"javascript:GetQuote('" + item.ID + "','" + item.ID + "')\">回复</a> <a href='#'onclick=\"javascript: ShowCmt('" + item.ID + "');\">(" + sonCmt + ")</a>";
-                HtmlString += " | <a href=\"#\" onclick=\"javascript:Like('" + item.ID + "');><i class=\"glyphicon glyphicon-thumbs-up\"> </i>（" + item.Like + "）</a> | <a href=\"#\" onclick=\"javascript:Like('" + item.ID + "');> <i class=\"glyphicon glyphicon-thumbs-down\"></i>（" + item.Hate + "）</a> | 发表时间：" + item.ReplyTime + "</div>";
+                HtmlString += " | <a  onclick=\"javascript:Like('" + item.ID + "')\";><i class=\"glyphicon glyphicon-thumbs-up\">（" + item.Like + "）</i></a> ";
+                HtmlString += "| <a onclick=\"javascript:Hate('" + item.ID + "')\";><i class=\"glyphicon glyphicon-thumbs-down\">（" + item.Hate + "）</i></a>";
+                HtmlString += " | 发表时间：" + item.ReplyTime + "</div>";
                 HtmlString += " </div>";
             }
             //生成html 注入视图
